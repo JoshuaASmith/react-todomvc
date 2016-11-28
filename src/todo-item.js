@@ -1,17 +1,37 @@
 const React = require('react')
 
 const TodoItem = React.createClass({
+    getInitialState() {
+        return {editText: this.props.todo.title}
+    },
+    handleEdit() {
+        this.props.onEdit()
+
+    },
+    handleChange(e) {
+        this.setState({editText: e.target.value})
+    },
+    handleSubmit() {
+        this.props.onSave(this.state.editText)
+    },
     render() {
+        const itemState = e => {
+            if (this.props.todo.completed) {
+                return 'completed'
+            }
+            if (this.props.editing === this.props.todo.id) {
+                return 'editing'
+            }
+            return ''
+        }
         return (
-            <li className={this.props.todo.completed
-                ? 'completed'
-                : ''}>
+            <li className={itemState()}>
                 <div className="view">
                     <input type="checkbox" className="toggle" checked={this.props.todo.completed} onChange={this.props.onToggle}/>
-                    <label htmlFor="">{this.props.todo.title}</label>
+                    <label onDoubleClick={this.handleEdit} htmlFor="">{this.props.todo.title}</label>
                     <button className="destroy"></button>
                 </div>
-                <input type="text" className="edit"/>
+                <input onChange={this.handleChange} onBlur={this.handleSubmit} value={this.state.editText} type="text" className="edit"/>
             </li>
         )
     }
