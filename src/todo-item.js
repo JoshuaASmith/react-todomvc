@@ -6,7 +6,9 @@ const TodoItem = React.createClass({
     },
     handleEdit() {
         this.props.onEdit()
-
+    },
+    handleDestroy() {
+        this.props.onDestroy()
     },
     handleChange(e) {
         this.setState({editText: e.target.value})
@@ -29,7 +31,7 @@ const TodoItem = React.createClass({
                 <div className="view">
                     <input type="checkbox" className="toggle" checked={this.props.todo.completed} onChange={this.props.onToggle}/>
                     <label onDoubleClick={this.handleEdit} htmlFor="">{this.props.todo.title}</label>
-                    <button className="destroy"></button>
+                    <button onClick={this.handleDestroy} className="destroy"></button>
                 </div>
                 <input onChange={this.handleChange} onBlur={this.handleSubmit} value={this.state.editText} type="text" className="edit"/>
             </li>
